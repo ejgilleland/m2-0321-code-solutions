@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Carousel</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="carousel-container">
+    <div class="col-tenth">
+      <i class="fas fa-angle-left"></i>
+    </div>
+    <div class="image-container col-eighty">
+      <img src="images/001.png" alt="Bulbasaur" class="image" data-index='0'>
+      <div class="col-full">
+        <ul class="carousel-key">
+          <li><i class="fas fa-circle" data-index='0'></i></li>
+          <li><i class="far fa-circle" data-index='1'></i></li>
+          <li><i class="far fa-circle" data-index='2'></i></li>
+          <li><i class="far fa-circle" data-index='3'></i></li>
+          <li><i class="far fa-circle" data-index='4'></i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-tenth">
+      <i class="fas fa-angle-right"></i>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
