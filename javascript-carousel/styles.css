@@ -1,0 +1,61 @@
+html {
+  text-align: center;
+}
+
+.col-tenth {
+  flex-basis: 10%;
+}
+
+.col-eighty {
+  flex-basis: 80%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-full {
+  flex-basis: 100%;
+}
+
+.carousel-container {
+  display: flex;
+  border: 3px solid black;
+  border-radius: 3px;
+  margin: auto;
+  width: 900px;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-container > img {
+  padding: 2rem;
+  max-height: auto;
+}
+
+.col-tenth > i {
+  font-size: 76px;
+  padding: 2rem;
+}
+
+.carousel-key {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.carousel-key > li {
+  padding: 0 0.5rem 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+i:hover,
+li:hover {
+  cursor: pointer;
+}
