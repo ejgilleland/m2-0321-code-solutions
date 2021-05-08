@@ -3,8 +3,6 @@ const app = express();
 let nextId = 1;
 const grades = {};
 
-app.listen(3000, () => {});
-
 app.use(express.json());
 
 app.get('/api/grades', (req, res) => {
@@ -16,9 +14,21 @@ app.get('/api/grades', (req, res) => {
 });
 
 app.post('/api/grades', (req, res) => {
-  const gradeElement = req.body;
-  gradeElement.id = nextId;
-  grades[nextId] = gradeElement;
-  res.status(201).send(grades[nextId]);
-  nextId++;
+  if (('name' in req.body) && ('course' in req.body) && ('score' in req.body)) {
+    grades[nextId] = {
+      id: nextId,
+      name: req.body.name,
+      course: req.body.course,
+      score: req.body.score
+    };
+    res.status(201).send(grades[nextId]);
+    nextId++;
+  } else {
+    res.status(400).send('Bad Request.');
+  }
+});
+
+app.listen(3000, () => {
+  // eslint-disable-next-line no-console
+  console.log('Listening on port 3000');
 });
