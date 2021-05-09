@@ -44,6 +44,25 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
+app.delete('/api/notes/:id', (req, res) => {
+  if (Number.isInteger(parseFloat(req.params.id)) && (parseFloat(req.params.id) > 0)) {
+    if (req.params.id in data.notes) {
+      delete data.notes[req.params.id];
+      fs.writeFile('./data.json', JSON.stringify(data, null, 2), err => {
+        if (err) {
+          res.status(500).send({ error: 'An unexpected error occurred.' });
+          return;
+        }
+        res.status(204).send();
+      });
+    } else {
+      res.status(404).send({ error: 'cannot find note with id ' + req.params.id });
+    }
+  } else {
+    res.status(400).send({ error: 'id must be a positive integer' });
+  }
+});
+
 app.listen(3000, () => {
   // eslint-disable-next-line no-console
   console.log('Listening on port 3000');
