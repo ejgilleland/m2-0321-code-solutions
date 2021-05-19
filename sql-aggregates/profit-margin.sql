@@ -7,7 +7,6 @@ with "revenue" as (
     join "rentals" using ("inventoryId")
     join "payments" using ("rentalId")
     group by "films"."filmId"
-    order by "films"."filmId"
 ),
 
 "cost" as (
@@ -19,7 +18,6 @@ with "revenue" as (
     from "inventory"
     join "films" using ("filmId")
     group by "films"."filmId"
-    order by "films"."filmId"
 )
 
 select "revenue"."filmId",
