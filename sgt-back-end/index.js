@@ -12,7 +12,10 @@ app.use(express.json());
 
 app.get('/api/grades', (req, res) => {
   const sql = `
-  select *
+  select "gradeId",
+         "course",
+         "name",
+         "score"
   from "grades";
   `;
   db
@@ -35,7 +38,7 @@ app.post('/api/grades', (req, res) => {
         const sql = `
         insert into "grades" ("course", "name", "score")
         values ($1, $2, $3)
-        returning *;
+        returning "gradeId", "course", "name", "score";
         `;
         const values = [req.body.course, req.body.name, req.body.score];
         db
@@ -110,7 +113,7 @@ app.put('/api/grades/:gradeId', (req, res) => {
             update "grades"
             set ${text}
             where "gradeId" = $${values.length}
-            returning *;
+            returning "gradeId", "course", "name", "score";
             `;
       db
         .query(sql, values)
