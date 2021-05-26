@@ -37,7 +37,7 @@ app.post('/api/grades', (req, res) => {
         values ($1, $2, $3)
         returning *;
         `;
-        const values = [req.body.course, req.body.course, req.body.score];
+        const values = [req.body.course, req.body.name, req.body.score];
         db
           .query(sql, values)
           .then(result => {
@@ -79,32 +79,26 @@ app.put('/api/grades/:gradeId', (req, res) => {
         switch (property) {
           case 'course':
             values.push(req.body.course);
-            if (counter === 1) {
-              text += `"course" = $${counter}`;
-            } else {
-              text += `,
+            (counter === 1)
+              ? text += `"course" = $${counter}`
+              : text += `,
                 "course" = $${counter}`;
-            }
             counter++;
             break;
           case 'name':
             values.push(req.body.name);
-            if (counter === 1) {
-              text += `"name" = $${counter}`;
-            } else {
-              text += `,
+            (counter === 1)
+              ? text += `"name" = $${counter}`
+              : text += `,
                 "name" = $${counter}`;
-            }
             counter++;
             break;
           case 'score':
             values.push(req.body.score);
-            if (counter === 1) {
-              text += `"score" = $${counter}`;
-            } else {
-              text += `,
+            (counter === 1)
+              ? text += `"score" = $${counter}`
+              : text += `,
                 "score" = $${counter}`;
-            }
             counter++;
             break;
           default:
@@ -134,11 +128,37 @@ app.put('/api/grades/:gradeId', (req, res) => {
         });
     } else {
       res.status(400).json({ error: 'Please include at least one field to update: course, name, score' });
-
     }
   } else {
     res.status(400).json({ error: 'gradeId must be a positive integer' });
+  }
+});
 
+app.delete('/api/grades/:gradeId', (req, res) => {
+  const gradeId = parseInt(req.params.gradeId, 10);
+  if (Number.isInteger(gradeId) && gradeId > 0) {
+    const values = [gradeId];
+    const sql = `
+                delete from "grades"
+                where "gradeId" = $1
+                returning *;
+                `;
+    db
+      .query(sql, values)
+      .then(result => {
+        const grade = result.rows[0];
+        if (!grade) {
+          res.status(404).json({ error: `Cannot find grade with gradeId ${gradeId}` });
+        } else {
+          res.status(204).send();
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+      });
+  } else {
+    res.status(400).json({ error: 'gradeId must be a positive integer' });
   }
 });
 
