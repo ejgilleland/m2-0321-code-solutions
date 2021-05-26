@@ -34,7 +34,7 @@ app.post('/api/grades', (req, res) => {
     res.status(400).json({ error: 'Please make sure to include a course, name, and score' });
   } else {
     if (!!req.body.course && !!req.body.name) {
-      if (req.body.score >= 0 && req.body.score <= 100) {
+      if (req.body.score >= 0 && req.body.score <= 100 && Number.isInteger(req.body.score)) {
         const sql = `
         insert into "grades" ("course", "name", "score")
         values ($1, $2, $3)
@@ -60,10 +60,10 @@ app.post('/api/grades', (req, res) => {
 });
 
 app.put('/api/grades/:gradeId', (req, res) => {
-  const gradeId = parseInt(req.params.gradeId, 10);
+  const gradeId = req.params.gradeId;
   if (Number.isInteger(gradeId) && gradeId > 0) {
     if (('course' in req.body) || ('name' in req.body) || ('score' in req.body)) {
-      if (!(req.body.score >= 0 && req.body.score <= 100) && 'score' in req.body) {
+      if (!(req.body.score >= 0 && req.body.score <= 100 && Number.isInteger(req.body.score)) && 'score' in req.body) {
         res.status(400).json({ error: 'score must be a nonnegative integer less than or equal to 100' });
         return;
       }
@@ -138,7 +138,7 @@ app.put('/api/grades/:gradeId', (req, res) => {
 });
 
 app.delete('/api/grades/:gradeId', (req, res) => {
-  const gradeId = parseInt(req.params.gradeId, 10);
+  const gradeId = req.params.gradeId;
   if (Number.isInteger(gradeId) && gradeId > 0) {
     const values = [gradeId];
     const sql = `
